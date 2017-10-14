@@ -298,7 +298,7 @@ def checkAllPeopleForMessages():
 
   for index in range(len(people)):
     scheduleSomeMessagesSoon(people[index])
-    time.sleep(10)
+    time.sleep(5)
     upcomingMessages(people[index])
 
 checkAllPeopleForMessages()
