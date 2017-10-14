@@ -49,6 +49,14 @@ def upcomingMessages(person):
     delta_minutes = minutesDifference(now,time)
     if 0 <= delta_minutes and delta_minutes < script_interval_minutes + error_buffer_minutes:
       print 'Current schedule : (', schedule["id"], ") ", time
+      indexOfLastMessage = 0
+      for index in range(len(person["messages"])):
+        if person["messages"][index]["id"] == person["lastMessageSent"]:
+          indexOfLastMessage = index
+      indexOfNextMessage = indexOfLastMessage + 1
+      if (indexOfNextMessage == len(person["messages"])):
+        indexOfNextMessage = 0
+      print person["messages"][indexOfNextMessage]["message"]
 
 adrian = {
   "id" : "22313131",
