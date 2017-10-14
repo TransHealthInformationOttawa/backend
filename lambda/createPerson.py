@@ -35,9 +35,9 @@ def respond(code, res=None):
 
 
 def lambda_handler(event, context):
-    # print("Received event from apigw: " + json.dumps(event, indent=2))
+    print("Received event from apigw: " + json.dumps(event, indent=2))
 
-    if event['headers'].get('Content-Type', None) != 'application/json':
+    if event['headers'].get('content-type', None) != 'application/json' and event['headers'].get('Content-Type', None) != 'application/json':
         return respond(415, {})
 
     body = json.loads(event['body'])
@@ -50,13 +50,25 @@ def lambda_handler(event, context):
     if phone != None:
         phone = phone.strip()
 
+    if 'messages' not in body:
+        body['messages'] = []
+
+    if 'schedules' not in body:
+        body['schedules'] = []
+
+    for message in body['messages']:
+        message['id'] = str(uuid.uuid4())
+
+    for schedule in body['schedules']:
+        schedule['id'] = str(uuid.uuid4())
+
     person = {
         'id': str(uuid.uuid4()),
         'name': name,
         'enabled': phone != None and phone != '',
         'phone': phone,
-        'schedules': [],
-        'messages': [],
+        'schedules': body['schedules'],
+        'messages': body['messages'],
     }
 
     table.put_item(
