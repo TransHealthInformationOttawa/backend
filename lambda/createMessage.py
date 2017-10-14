@@ -38,7 +38,7 @@ def respond(code, res=None):
 def lambda_handler(event, context):
     # print("Received event from apigw: " + json.dumps(event, indent=2))
 
-    if event['headers'].get('Content-Type', None) != 'application/json':
+    if event['headers'].get('content-type', None) != 'application/json' and event['headers'].get('Content-Type', None) != 'application/json':
         return respond(415, {})
 
     body = json.loads(event['body'])
