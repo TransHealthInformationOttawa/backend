@@ -11,6 +11,6 @@ client = Client(account_sid, auth_token)
 message = client.messages.create(
   to=os.environ['RECIPIENT_TELEPHONE'],
   from_=os.environ['SENDER_TELEPHONE'],
-  body="When's lunch?")
+  body="When's dinner?")
 
 print(message.sid)

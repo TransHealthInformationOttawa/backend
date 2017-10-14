@@ -28,19 +28,19 @@ adrian = {
   ,{
     "id" : "4",
     "dayOfWeek": 6, # Saturday
-    "hour": 13,
-    "minute": 30
+    "hour": 17,
+    "minute": 50
   }
   ,{
     "id" : "5",
     "dayOfWeek": 6, # Saturday
-    "hour": 16,
+    "hour": 17,
     "minute": 46
   }
   ,{
     "id" : "6",
     "dayOfWeek": 6, # Saturday
-    "hour": 15,
+    "hour": 17,
     "minute": 12
   }
   ,{
