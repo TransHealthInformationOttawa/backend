@@ -59,6 +59,7 @@ def upcomingMessages(person):
       indexOfNextMessage = indexOfLastMessage + 1
       if (indexOfNextMessage == len(person["messages"])):
         indexOfNextMessage = 0
+      person["lastMessageSent"] = person["messages"][indexOfNextMessage]["id"]
       print person["messages"][indexOfNextMessage]["message"]
 
 adrian = {
