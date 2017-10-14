@@ -18,7 +18,6 @@ def defaultencode(o):
         return fakefloat(o)
     raise TypeError(repr(o) + " is not JSON serializable")
 
-
 print('Loading function')
 
 dynamodb = boto3.resource('dynamodb')
@@ -43,39 +42,27 @@ def lambda_handler(event, context):
 
     body = json.loads(event['body'])
 
-    response = table.query(
-        KeyConditionExpression=Key('id').eq(event['pathParameters']['id'])
-    )
+    name = body.get('name', None)
+    if name != None:
+        name = name.strip()
 
-    items = response['Items']
-    if len(items) == 0:
-        return respond(404, None)
+    phone = body.get('phone', None)
+    if phone != None:
+        phone = phone.strip()
 
-    person = response['Items'][0]
-
-    if not 'schedules' in person:
-        person['schedules'] = []
-
-    person['schedules'] += [{
+    person = {
         'id': str(uuid.uuid4()),
-        'year': body.get('year', None),
-        'dayOfWeek': body.get('dayOfWeek', None),
-        'month': body.get('month', None),
-        'dayOfMonth': body.get('dayOfMonth', None),
-        'hour': body.get('hour', None),
-        'minute': body.get('minute', None),
-    }]
+        'name': name,
+        'enabled': phone != None and phone != '',
+        'phone': phone,
+        'schedules': [],
+        'messages': [],
+    }
 
-    table.update_item(
-        Key={
-            'id': person['id']
-        },
-        UpdateExpression='SET schedules = :schedules',
-        ExpressionAttributeValues={
-            ':schedules': person['schedules']
-        }
+    table.put_item(
+        Item=person,
     )
 
     # TODO sure would be nice to have a Location header and a 201 response
 
-    return respond(None, person['schedules'][-1])
+    return respond(None, person)
