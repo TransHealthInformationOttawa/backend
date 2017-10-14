@@ -50,8 +50,11 @@ def upcomingMessages(person):
     if 0 <= delta_minutes and delta_minutes < script_interval_minutes + error_buffer_minutes:
       print 'Current schedule : (', schedule["id"], ") ", time
       indexOfLastMessage = 0
+      idOfLastMessgeSend = 0
+      if "lastMessageSent" in person:
+        idOfLastMessgeSend = person["lastMessageSent"]
       for index in range(len(person["messages"])):
-        if person["messages"][index]["id"] == person["lastMessageSent"]:
+        if person["messages"][index]["id"] == idOfLastMessgeSend:
           indexOfLastMessage = index
       indexOfNextMessage = indexOfLastMessage + 1
       if (indexOfNextMessage == len(person["messages"])):
