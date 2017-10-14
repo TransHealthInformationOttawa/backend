@@ -121,6 +121,16 @@ def upcomingMessages(person):
       person["lastMessageSent"] = person["messages"][indexOfNextMessage]["id"]
       # print(person["messages"][indexOfNextMessage]["message"])
       sendSMS(person["phone"],person["messages"][indexOfNextMessage]["message"])
+      table = dynamodb.Table(os.environ.get('DATABASE_NAME'))
+      table.update_item(
+        Key={
+          'id': person["id"]
+        },
+        UpdateExpression='SET lastMessageSent = :val1',
+        ExpressionAttributeValues={
+          ':val1': person["messages"][indexOfNextMessage]["id"]
+        }
+      )
 
 
 def getAllPeople():
