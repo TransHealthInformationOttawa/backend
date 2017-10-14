@@ -20,6 +20,11 @@ def minutesDifference(d1, d2):
   return int(d2_ts-d1_ts) / 60
 
 def upcomingMessages(person):
+  if not "messages" in person:
+    return
+  if len(person["messages"]) == 0:
+    return
+
   now = datetime.datetime.now()
   for index in range(len(person["schedules"])):
     schedule = person["schedules"][index]
