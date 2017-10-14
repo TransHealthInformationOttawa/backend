@@ -30,5 +30,14 @@ Set your project to use the new profile `AWS_PROFILE=THIO`.
 This can be passed before a command, eg `AWS_PROFILE=THIO python test_db.py`, or you can run `export AWS_PROFILE=THIO` to apply it to all future commands in the tab. Add `export AWS_PROFILE=THIO` to your bash_profile to apply it all of the time. 
 
 You can test your AWS DB connection by running `python test_db.py`. You will need to set the DATABASE_NAME environmental variable.
+
+#### Message sender in lambda
+Note that the following environmental varaibles must be set up in AWS lamba for sendMessages.py:
+1. SENDER_TELEPHONE
+2. DATABASE_NAME
+3. RECIPIENT_TELEPHONE
+4. TWILIO_AUTH_TOKEN
+5. TWILIO_ACCOUNT_SID
+
 ### Troubleshooting
 If you are having permission issues intalling things with `pip`, try adding the --user flag.
