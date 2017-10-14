@@ -3,6 +3,7 @@ from boto3.dynamodb.conditions import Key, Attr
 import boto3
 import datetime
 import os
+import re
 import time
 import uuid
 
@@ -11,6 +12,22 @@ dynamodb = boto3.resource('dynamodb')
 # Assumptions about the schedule of the (lamba) scheduler that periodically runs the code
 script_interval_minutes = 60
 error_buffer_minutes = 2
+
+def formatPhone(number):
+  m = re.search('\+?1?-?\(?([1-9]\d{2})\)?-? ?(\d{3}) ?-?(\d{4})', number)
+  return "+1" + m.group(1) + m.group(2) + m.group(3)
+
+def sendSMS(number,message):
+  number = formatPhone(number)
+  account_sid = os.environ['TWILIO_ACCOUNT_SID']
+  auth_token = os.environ['TWILIO_AUTH_TOKEN']
+
+  client = Client(account_sid, auth_token)
+
+  message = client.messages.create(
+    to=number,
+    from_=os.environ['SENDER_TELEPHONE'],
+    body=message)
 
 def minutesDifference(d1, d2):
   d1_ts = time.mktime(d1.timetuple())
@@ -73,6 +90,7 @@ def upcomingMessages(person):
         indexOfNextMessage = 0
       person["lastMessageSent"] = person["messages"][indexOfNextMessage]["id"]
       print person["messages"][indexOfNextMessage]["message"]
+      sendSMS(person["phone"],person["messages"][indexOfNextMessage]["message"])
 
 def schedule(datetime):
   return {
