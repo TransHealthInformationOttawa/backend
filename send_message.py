@@ -34,7 +34,7 @@ def upcomingMessages(person):
 
     dayOfMonth = now.day
     if "dayOfMonth" in schedule:
-      if schedule["dayOfMonth"] != day:
+      if schedule["dayOfMonth"] != dayOfMonth:
         continue
 
     hour = now.hour
