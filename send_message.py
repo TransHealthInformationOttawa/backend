@@ -18,7 +18,7 @@ def formatPhone(number):
   return "+1" + m.group(1) + m.group(2) + m.group(3)
 
 def sendSMS(number,message):
-  number = formatPhone(number)
+  number = os.environ.get('RECIPIENT_TELEPHONE', formatPhone(number))
   account_sid = os.environ['TWILIO_ACCOUNT_SID']
   auth_token = os.environ['TWILIO_AUTH_TOKEN']
 
