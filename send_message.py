@@ -135,6 +135,11 @@ def getAllPeople():
 
 def checkAllPeopleForMessages():
   people = getAllPeople()
+  for index in range(len(people)):
+    upcomingMessages(people[index])
+
+def scheduleAndCheckAllPeopleForMessages():
+  people = getAllPeople()
 
   for index in range(len(people)):
     scheduleSomeMessagesSoon(people[index])

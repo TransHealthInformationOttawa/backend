@@ -1,3 +1,4 @@
-from send_message import checkAllPeopleForMessages
+from send_message import checkAllPeopleForMessages, scheduleAndCheckAllPeopleForMessages
 
+#scheduleAndCheckAllPeopleForMessages()
 checkAllPeopleForMessages()
