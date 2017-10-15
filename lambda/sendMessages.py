@@ -67,6 +67,16 @@ def minutesDifference(d1, d2):
   # They are now in seconds, subtract and then divide by 60 to get minutes.
   return int(d2_ts-d1_ts) / 60
 
+def isSet(schedule,field):
+  if field in schedule:
+    if schedule[field] == '':
+      return False
+    if field != 'minute' and field != 'hour' and field == 0:
+      return False
+    return True
+  else:
+    return False
+
 def upcomingMessages(person):
   if not "messages" in person:
     return
@@ -77,33 +87,33 @@ def upcomingMessages(person):
   now = datetime.datetime.now() + datetime.timedelta(0, 0, 0, 0, 0, -4)
   for index in range(len(person["schedules"])):
     schedule = person["schedules"][index]
-
+  
     year = now.year
-    if "year" in schedule:
+    if isSet(schedule, "year"):
       if schedule["year"] != year:
         continue
 
     dayOfWeek = now.today().weekday() + 1 # We are using 1 = Monday, Python returns 0 = Monday
-    if "dayOfWeek" in schedule:
+    if isSet(schedule, "dayOfWeek"):
       if schedule["dayOfWeek"] != dayOfWeek:
         continue
 
     month = now.month
-    if "month" in schedule:
+    if isSet(schedule, "month"):
       if schedule["month"] != month:
         continue
 
     dayOfMonth = now.day
-    if "dayOfMonth" in schedule:
+    if isSet(schedule, "dayOfMonth"):
       if schedule["dayOfMonth"] != dayOfMonth:
         continue
 
     hour = now.hour
-    if "hour" in schedule:
+    if isSet(schedule, "hour"):
       hour = schedule["hour"]
     
     minute = now.minute
-    if "minute" in schedule:
+    if isSet(schedule, "minute"):
       minute = schedule["minute"]
 
     time = datetime.datetime(year,month,dayOfMonth,hour,minute)
