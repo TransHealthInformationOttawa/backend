@@ -28,6 +28,8 @@ error_buffer_minutes = 2
 
 def formatPhone(number):
   m = re.search('\+?1?-?\(?([1-9]\d{2})\)?-? ?(\d{3}) ?-?(\d{4})', number)
+  if not m:
+    return None
   return "+1" + m.group(1) + m.group(2) + m.group(3)
 
 def sendSMS(number,message):
